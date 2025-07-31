@@ -1,5 +1,14 @@
 # FireGun CLI
 
+---
+Disclaimer
+
+All information contained in this repository is provided for educational and research purposes only. The author is not responsible for any illegal use of this tool.
+
+It is a specialized cloud security tool that helps both pentesters and security professionals.
+
+---
+
 **FireGun** is a Python 3.13 CLI tool for pentesting Firebase projects. It provides:
 
 * **Realtime Database (RTDB)** scanning:
