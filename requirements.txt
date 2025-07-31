@@ -1,0 +1,5 @@
+# FirebaseHunter runtime dependencies
+httpx
+requests
+firebase-admin
+google-cloud-firestore
