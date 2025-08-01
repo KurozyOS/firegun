@@ -38,6 +38,16 @@ It is a specialized cloud security tool that helps both pentesters and security 
 
 ---
 
+## Demo
+1. Expliting the misconfigured firebase
+![Expliting misconfigured firebase](images/exploiting.png)
+2. Reading the content of the misconfigured firebase
+![Reading misconfigured firebase](images/reading.png)
+3. Verifying exploited firebase
+![Showing content of the URL](images/takeover-proof.png)
+
+---
+
 ## Installation
 
 1. Clone this repo or download `firegun.py` into your PATH.
@@ -53,6 +63,12 @@ It is a specialized cloud security tool that helps both pentesters and security 
    ```bash
    chmod +x firegun.py
    ```
+Or
+
+Install with the pipx command
+```bash
+pipx install git+https://github.com/KurozyOS/firegun.git
+```
 
 ---
 
@@ -90,7 +106,7 @@ optional arguments:
 # Authenticated test (load idToken from config.json)
 ./firegun.py scan your-db.firebaseio.com --config config.json
 
-# Attempt takeover exploit + verify write
+# Attempt takeover exploit + verify write !IT CAN REMOVE THE ORIGINAL CONTENT!
 ./firegun.py scan your-db.firebaseio.com --exploit
 
 # Print DB data on read access
