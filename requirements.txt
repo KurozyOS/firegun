@@ -1,4 +1,3 @@
-# FirebaseHunter runtime dependencies
 httpx
 requests
 firebase-admin
