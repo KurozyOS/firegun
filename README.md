@@ -9,7 +9,9 @@ It is a specialized cloud security tool that helps both pentesters and security 
 
 ---
 
-**FireGun** is a Python 3.13 CLI tool for pentesting Firebase projects. It provides:
+**FireGun** is a Python 3.13 CLI tool for pentesting Firebase and Google Cloud Platform (GCP) projects. It provides comprehensive security testing capabilities:
+
+## Firebase Security Tests
 
 * **Realtime Database (RTDB)** scanning:
 
@@ -26,6 +28,10 @@ It is a specialized cloud security tool that helps both pentesters and security 
 * **Firestore Admin SDK** export:
 
   * Full recursive dump of collections & documents, bypassing security rules
+* **Firebase Storage** scanning:
+
+  * Read/write access testing
+  * Public file access detection
 * **Security Rules fuzzing**:
 
   * Hook into external JavaScript scripts for dynamic rule testing
@@ -35,6 +41,46 @@ It is a specialized cloud security tool that helps both pentesters and security 
 * **Authentication helpers**:
 
   * `signup` and `signin` with Firebase Identity Toolkit REST API
+
+## Google Cloud Platform Security Tests
+
+* **Google Cloud Storage (GCS)** scanning:
+
+  * Public bucket access detection
+  * IAM policy misconfiguration checks
+  * ACL (Access Control List) analysis
+  * Public read/write access testing with PoC evidence
+  * Object enumeration and access testing
+
+* **Cloud Functions** security testing:
+
+  * Public access detection
+  * IAM policy misconfigurations
+  * Ingress settings validation
+  * Function endpoint accessibility testing
+
+* **Cloud Run** security testing:
+
+  * Public service access detection
+  * IAM policy analysis
+  * Endpoint accessibility validation
+
+* **App Engine** security testing:
+
+  * Public application access detection
+  * Default hostname accessibility testing
+
+* **Cloud SQL** security testing:
+
+  * Public IP detection
+  * Authorized networks analysis
+  * Detection of 0.0.0.0/0 (public access) misconfigurations
+
+* **API Key** validation:
+
+  * API key exposure testing
+  * Validation against multiple Google APIs
+  * Security recommendations
 
 ---
 
@@ -165,14 +211,113 @@ optional arguments:
 ./firegun.py signin --api-key YOUR_API_KEY user@example.com password123
 ```
 
+### 8. Google Cloud Storage Security Scan
+
+```bash
+# Scan GCS buckets for misconfigurations
+./firegun.py gcs-scan my-bucket-name another-bucket
+
+# With exploit attempt (tests write access)
+./firegun.py gcs-scan my-bucket-name --exploit
+
+# With access token for authenticated checks
+./firegun.py gcs-scan my-bucket-name --access-token YOUR_TOKEN
+
+# JSON output
+./firegun.py gcs-scan my-bucket-name --json
+```
+
+### 9. API Key Security Check
+
+```bash
+# Validate and check API key security
+./firegun.py api-key-check YOUR_API_KEY
+
+# JSON output
+./firegun.py api-key-check YOUR_API_KEY --json
+```
+
+### 10. Cloud Functions Security Scan
+
+```bash
+# Scan Cloud Functions in a project
+./firegun.py cloud-functions my-project-id
+
+# Scan specific region
+./firegun.py cloud-functions my-project-id us-central1
+
+# With access token
+./firegun.py cloud-functions my-project-id --access-token YOUR_TOKEN
+```
+
+### 11. Cloud Run Security Scan
+
+```bash
+# Scan Cloud Run service (full path required)
+./firegun.py cloud-run projects/my-project/locations/us-central1/services/my-service
+
+# With access token
+./firegun.py cloud-run projects/my-project/locations/us-central1/services/my-service --access-token YOUR_TOKEN
+```
+
+### 12. App Engine Security Scan
+
+```bash
+# Scan App Engine application
+./firegun.py app-engine my-project-id
+
+# With access token
+./firegun.py app-engine my-project-id --access-token YOUR_TOKEN
+```
+
+### 13. Cloud SQL Security Scan
+
+```bash
+# Scan Cloud SQL instance (full path required)
+./firegun.py cloud-sql projects/my-project/instances/my-instance
+
+# With access token
+./firegun.py cloud-sql projects/my-project/instances/my-instance --access-token YOUR_TOKEN
+```
+
+---
+
+## Proof of Concept (PoC) Evidence
+
+FireGun v2.0 includes comprehensive PoC evidence for all detected vulnerabilities:
+
+- **HTTP Response Codes**: Status codes proving access
+- **Response Previews**: Sample responses showing successful access
+- **Uploaded Files**: Proof of write access via probe files
+- **Accessible URLs**: Direct URLs demonstrating public access
+- **IAM Policies**: Full IAM policy details showing misconfigurations
+- **Metadata**: Bucket/instance metadata revealing security issues
+
+All PoC evidence is included in JSON output when using `--json` flag.
+
+---
+
+## Security Testing Best Practices
+
+1. **Always get written authorization** before testing any infrastructure
+2. **Use `--exploit` flag carefully** - it creates non-destructive markers but may be logged
+3. **Review PoC evidence** in JSON output for detailed vulnerability information
+4. **Use access tokens** when you have legitimate access to test authenticated scenarios
+5. **Start with read-only scans** before attempting write tests
+
 ---
 
 ## ToDo List
-- [ ] Finish the Scan Realtime Database with authentication
-- [ ] Complete the Firestore Admin Export Module
-- [ ] Complete the Fuzz Security Rules Module
-- [ ] Complete the Custom JS Extensions Module
-- [ ] Complete the Authentication Helpers Module
+- [x] Google Cloud Storage security testing
+- [x] Cloud Functions security testing
+- [x] Cloud Run security testing
+- [x] App Engine security testing
+- [x] Cloud SQL public access detection
+- [x] API key validation
+- [x] Enhanced PoC evidence collection
+- [ ] Cloud Pub/Sub security testing
+- [ ] Cloud BigQuery security testing
+- [ ] Enhanced reporting with HTML output
 
 ## License
 
